@@ -1,5 +1,4 @@
-import Connection from "../database/Connection";
-
+const  Connection=  require('../database/Connection')
 
 module.exports= async(id)=>{
 

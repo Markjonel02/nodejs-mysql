@@ -1,4 +1,4 @@
-import Connection from "../database/Connection";
+const Connection =require ('../database/Connection');
 
 
 module.exports= async(username,password)=>{
@@ -13,6 +13,7 @@ module.exports= async(username,password)=>{
     return true
                     
     } catch (err) {
+        console.log(Connection(query))
         console.log("error:",err)
         return false
     }

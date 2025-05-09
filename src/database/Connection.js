@@ -8,15 +8,16 @@ const db_config = {
     user:"root",
     password:"",
     database:"nodejs_db",
-    port:3306
+   
 }
 
 const con = mysql.createConnection(db_config)
 
 
 
+
 module.exports = (query)=>{
- return new Promise((reject,resolve)=>{
+ return new Promise((resolve,reject)=>{
     con.connect(err=>{
         if (err) {
             reject(errr)
