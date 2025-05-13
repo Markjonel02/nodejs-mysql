@@ -9,7 +9,7 @@ const Updateservice  = require('../services/Create')
 const Deleteservice  = require('../services/Create')
 
 
-router.post('/create',async(req,res)=>{
+router.post(`/create`,async(req,res)=>{
    const {username,password} = req.body
 
    await Createservice;
@@ -22,34 +22,31 @@ router.post('/create',async(req,res)=>{
      res.status(500).send({message:"Error creating account!",status:results})
   }
 })
+router.get('/retrieve', async (req, res) => {
+  try {
+      const { fields } = req.query;
+      if (!fields) {
+          return res.status(400).json({ message: "Missing fields parameter!" });
+      }
 
-router.get('/retrieve',async(req,res)=>{
-   const {username,password} = req.body
+      const results = await Retrieveservice(fields);
 
+      res.status(200).json({ success: true, data: results });
 
-   const arr = []
-
-   arr.push(username)
-   arr.push(password)
-
-
-   const results = await Retrieveservice(arr)
-
-  if (results) {
-    res.status(200).send(results)
-    
-  } else {
-     res.status(500).send({message:"Error retrieving account!",status:results})
+  } catch (error) {
+      res.status(500).json({ success: false, message: "Internal Server Error", error: error.message });
   }
-})
+});
 
 
 
-router.post('/update',async(req,res)=>{
+
+
+router.post(`/update`,async(req,res)=>{
    const {id, newPassword} = req.body
 
 
-const results  = await Retrieveservice(id,newPassword)
+const results  = await Updateservice(id,newPassword)
 
 
 
@@ -62,7 +59,7 @@ const results  = await Retrieveservice(id,newPassword)
 })
 
 
-router.get('/delete',async(req,res)=>{
+router.get(`/delete`,async(req,res)=>{
    const {id} = req.query
 
    const results = await Deleteservice(id)

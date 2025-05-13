@@ -11,25 +11,22 @@ const db_config = {
    
 }
 
-const con = mysql.createConnection(db_config)
-
-
-
-
+const con = mysql.createPool(db_config)
 module.exports = (query)=>{
  return new Promise((resolve,reject)=>{
-    con.connect(err=>{
+    con.getConnection((err,sql)=>{
         if (err) {
-            reject(errr)
+            reject(err)
         } else {
-            con.query(query,(err,results)=>{
+            sql.query(query,(err,results)=>{
                 if (err) {
-                    reject(errr)
+                    reject(err)
                 } else {
 
                     resolve(results)
                 }
-
+                sql.release()
+ 
             })
         }
     })

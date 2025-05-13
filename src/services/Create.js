@@ -1,20 +1,28 @@
-const Connection =require ('../database/Connection');
+const Connection = require('../database/Connection');
 
-
-module.exports= async(username,password)=>{
-
+module.exports = async (username, password) => {
     try {
-        const query = `INSERT INTO ` +
-                      `user_accnts ` +
-                      `VALUES ` +
-                      `(null, '${username}',md5('${password}'),1)`
+        // Ensure username and password are provided
+        if (!username || !password) {
+            throw new Error("Username and password are required!");
+        }
 
-    await Connection(query)
-    return true
-                    
+        // Check if username already exists to prevent duplicates
+        const checkQuery = `SELECT id FROM user_accnts WHERE username = '${username}'`;
+        const existingUser = await Connection(checkQuery);
+
+        if (existingUser.length > 0) {
+            throw new Error("Username already exists!");
+        }
+
+        // Properly structured INSERT statement
+        const query = `INSERT INTO user_accnts (username, password) VALUES ('${username}', MD5('${password}'))`;
+
+        await Connection(query);
+        return { success: true, message: "User created successfully" };
+
     } catch (err) {
-        console.log(Connection(query))
-        console.log("error:",err)
-        return false
+        console.error("Error:", err.message);
+        return { success: false, message: err.message };
     }
-} 
+};
