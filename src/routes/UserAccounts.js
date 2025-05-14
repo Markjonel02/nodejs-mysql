@@ -51,7 +51,7 @@ const results  = await Updateservice(id,newPassword)
 
 
   if (results) {
-    res.status(200).send({message:" Retrieve successfully!",status:results})
+    res.status(200).send({message:" update successfully!",status:results})
     
   } else {
      res.status(500).send({message:"Error updating account!",status:results})

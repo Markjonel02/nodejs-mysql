@@ -1,12 +1,13 @@
 const Connection =require('../database/Connection');
 
 
-module.exports= async(password,id)=>{
+module.exports= async(username,password,id)=>{
 
     try {
         const query = `UPDATE ` +
                       `user_accnts ` +
                       `SET ` +
+                      `username: = '${username}' `+
                       `password: = '${password}' `+
                       `WHERE ` + 
                       `id = ${id}`

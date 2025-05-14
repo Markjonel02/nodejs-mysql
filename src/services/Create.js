@@ -16,7 +16,7 @@ module.exports = async (username, password) => {
         }
 
         // Properly structured INSERT statement
-        const query = `INSERT INTO user_accnts (username, password) VALUES ('${username}', MD5('${password}'))`;
+        const query = `INSERT INTO user_accnts (username, password) VALUES ('${username}', ('${password}'))`;
 
         await Connection(query);
         return { success: true, message: "User created successfully" };
